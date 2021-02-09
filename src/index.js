@@ -1,17 +1,36 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { BrowserRouter } from 'react-router-dom'
+
+import {Provider, createClient, Client, defaultExchanges, dedupExchange, fetchExchange} from 'urql'
+import {cacheExchange} from '@urql/exchange-graphcache'
+
+import 'bootstrap/dist/css/bootstrap.min.css';
+
+
+import { getToken } from './token'
 import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import App from './components/App';
+
+const cache = cacheExchange({})
+
+const client = new Client({
+  url: 'http://localhost:8000/graphql/',
+  fetchOptions: () => {
+    const token = getToken()
+    // return token ? { headers: { Authorization: token}} : {}
+    return {
+      headers: { Authorization: token ? `JWT ${token}` : '' },      
+    }
+  },
+  exchanges: [dedupExchange, cache, fetchExchange]
+})
 
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
+  <BrowserRouter>
+    <Provider value={client}>
+      <App />
+    </Provider>
+  </BrowserRouter>,
   document.getElementById('root')
-);
-
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
+)
