@@ -54,6 +54,7 @@ export const CreateSong = props =>{
     const onSubmit = (e) => {
         e.preventDefault()
         song({ title, artist, latitude, longitude, date, description }).then((error)=>console.log(error));
+        e.target.reset()
         
     }
 
@@ -66,6 +67,21 @@ export const CreateSong = props =>{
                     </Col>
                     <Col xs='auto'>
                         <Form.Control size='lg' type="text" onChange = {e=>setArtist(e.target.value)} placeholder="Enter artist here" />
+                    </Col>
+                    <Col xs='auto'>
+                        <Form.Control size='lg' type="text" onChange = {e=>setDate(e.target.value)} placeholder="Enter date here" />
+                    </Col>
+                    <Col xs='auto'>
+                        <Form.Control size='lg' type="text" onChange = {e=>setLatitude(e.target.value)} placeholder="Enter latitude here" />
+                    </Col>
+                    
+                </Form.Row>
+                <Form.Row className="justify-content-md-center">
+                    <Col xs='auto'>
+                        <Form.Control size='lg' type="text" onChange = {e=>setLongitude(e.target.value)} placeholder="Enter longitude here" />
+                    </Col>
+                    <Col xs='auto'>
+                        <Form.Control size='lg' type="text" onChange = {e=>setDescription(e.target.value)} placeholder="Enter description here" />
                     </Col>
                     <Col xs='auto'>
                         <Button size='lg' variant="primary" type="submit" className='mb-4'>Enter</Button>
