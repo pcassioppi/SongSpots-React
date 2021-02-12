@@ -82,13 +82,7 @@ export const CreateSong = props =>{
 
     return (
         <div>
-            {show ? 
-            <Alert variant="success" onClose={() => setShow(false)} dismissible>
-                <Alert.Heading>Submission Confirmed!</Alert.Heading>
-                <p>
-                Reload the page to see your new song added.
-                </p>
-            </Alert>: ''}
+            
             <Form className="form-horizontal" onSubmit={onSubmit}>
                 <Form.Row className="justify-content-md-center">
                     <Col xs='auto'>
@@ -100,11 +94,12 @@ export const CreateSong = props =>{
                     <Col xs='auto'>
                         <Form.Control size='lg' type="text" onChange = {e=>setDate(e.target.value)} placeholder="Enter date here" />
                     </Col>
-                    {/* <Col xs='auto'>
-                        <Form.Control size='lg' plaintext readOnly defaultValue={localStorage.getItem('latitude')} />
-                    </Col> */}
+                    <Col xs='auto'>
+                        <Form.Control size='lg' placeholder={localStorage.getItem('latitude')} />
+                    </Col>
                     
                 </Form.Row>
+                
                 <Form.Row className="justify-content-md-center">
                     {/* <Col xs='auto'>
                         <Form.Control size='lg' plaintext readOnly defaultValue={localStorage.getItem('longitude')}/>
@@ -118,6 +113,13 @@ export const CreateSong = props =>{
                     </Col>
                 </Form.Row>
             </Form>
+            {show ? 
+            <Alert variant="success" onClose={() => setShow(false)} dismissible>
+                <Alert.Heading>Submission Confirmed!</Alert.Heading>
+                <p>
+                Reload the page to see your new song added.
+                </p>
+            </Alert>: ''}
             <NewSongMap songs={songsToRender}/>
         
             

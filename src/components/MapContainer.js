@@ -14,11 +14,11 @@ const MapContainer = ({songs}) => {
     }
 
     const mapStyles = {        
-      height: "90vh",
+      height: "100vh",
       width: "100%"};
 
     const defaultCenter = {
-      lat: 41.88, lng: -87.62
+      lat: 40.42, lng: -96.4
     }
 
 
@@ -28,7 +28,7 @@ const MapContainer = ({songs}) => {
        <LoadScript googleMapsApiKey=''>
             <GoogleMap
             mapContainerStyle={mapStyles}
-            zoom={15}
+            zoom={4}
             center={defaultCenter}>
                 {
                 songs.map(item => {

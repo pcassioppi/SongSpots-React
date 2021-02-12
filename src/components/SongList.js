@@ -42,11 +42,13 @@ const SongList = () => {
         <div>
           <Row>
             <Col>
+            
             {/* {data.songs} */}
             {songsToRender.map((song, index) => (
              <Song key={song.id} song={song} index={index} />
             ))}
             </Col>
+
             <Col>
               <MapContainer songs={songsToRender}/>
             </Col>

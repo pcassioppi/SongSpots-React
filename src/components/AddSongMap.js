@@ -15,7 +15,7 @@ const NewSongMap = ({songs}) => {
       width: "100%"};
 
     const defaultCenter = {
-      lat: 41.88, lng: -87.62
+        lat: 37, lng: -97.75
     }
     
     const [latitude, setLat] = React.useState('')
@@ -26,14 +26,14 @@ const NewSongMap = ({songs}) => {
             <GoogleMap
             
             mapContainerStyle={mapStyles}
-            zoom={15}
+            zoom={5}
             center={defaultCenter}
             onClick={(e)=>{
                 
                 setLat(e.latLng.lat())
                 setLong(e.latLng.lng())
-                localStorage.setItem('latitude', latitude)
-                localStorage.setItem('longitude', longitude)
+                localStorage.setItem('latitude', e.latLng.lat())
+                localStorage.setItem('longitude', e.latLng.lng())
             }}>
            
                 {
