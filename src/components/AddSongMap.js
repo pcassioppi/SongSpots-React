@@ -3,11 +3,8 @@ import { GoogleMap, LoadScript, Marker, InfoWindow } from '@react-google-maps/ap
 import { withRouter } from 'react-router'
 
 
-const MapContainer = ({songs}) => {
+const NewSongMap = ({songs}) => {
     const [ selected, setSelected ] = useState({});
-
-    
-   
 
     const onSelect = item => {
        setSelected(item);
@@ -20,16 +17,25 @@ const MapContainer = ({songs}) => {
     const defaultCenter = {
       lat: 41.88, lng: -87.62
     }
-
-
-
     
+    const [latitude, setLat] = React.useState('')
+    const [longitude, setLong] = React.useState('')
+   
     return (
        <LoadScript googleMapsApiKey=''>
             <GoogleMap
+            
             mapContainerStyle={mapStyles}
             zoom={15}
-            center={defaultCenter}>
+            center={defaultCenter}
+            onClick={(e)=>{
+                
+                setLat(e.latLng.lat())
+                setLong(e.latLng.lng())
+                localStorage.setItem('latitude', latitude)
+                localStorage.setItem('longitude', longitude)
+            }}>
+           
                 {
                 songs.map(item => {
                     return (
@@ -55,11 +61,17 @@ const MapContainer = ({songs}) => {
                     </InfoWindow>
                     )
                 }
-               
+                {
+                    <Marker
+                    position={{ lat: parseFloat(latitude), lng: parseFloat(longitude) }}
+                    
+                    />   
+                }
             </GoogleMap>
 
        </LoadScript>
+       
     )
 }
 
-export default withRouter(MapContainer);
+export default withRouter(NewSongMap);

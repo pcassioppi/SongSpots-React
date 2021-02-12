@@ -1,6 +1,7 @@
 import React from 'react'
 import { useQuery } from 'urql'
 import gql from 'graphql-tag'
+import {Row, Col} from 'react-bootstrap'
 
 import Song from './Song'
 import MapContainer from './MapContainer'
@@ -14,6 +15,7 @@ const FEED_QUERY = gql`
         latitude
         longitude
         date
+        description
         taggedBy{
           username
           id
@@ -25,15 +27,6 @@ const FEED_QUERY = gql`
 
 const SongList = () => {
 
-    const locations = [
-        {
-          name: "Location 1",
-          location: { 
-            lat: 41.88,
-            lng: -87.62 
-          },
-        }]
-
     //useQuery returns array with the result as the first item (called data) with fetching
     // and error as the second and third
     const [result] = useQuery({query:FEED_QUERY})
@@ -44,12 +37,20 @@ const SongList = () => {
 
     const songsToRender = data.songs
 
+    
     return(
         <div>
+          <Row>
+            <Col>
+            {/* {data.songs} */}
             {songsToRender.map((song, index) => (
              <Song key={song.id} song={song} index={index} />
             ))}
-            <MapContainer locations={locations}/>
+            </Col>
+            <Col>
+              <MapContainer songs={songsToRender}/>
+            </Col>
+          </Row>
         </div>
         )
     }

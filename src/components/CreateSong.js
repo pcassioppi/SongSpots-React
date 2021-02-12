@@ -1,12 +1,14 @@
 import React from 'react'
 import gql from 'graphql-tag';
-import { useMutation } from 'urql';
-import {Card,Form, Button, Container, Jumbotron, Col} from 'react-bootstrap';
+import { useMutation, useQuery } from 'urql';
+import {Card,Form, Button, Container, Alert, Col} from 'react-bootstrap';
 
 
-const POST_MUTATION = gql`
-  mutation ($title: String!, $artist:String!, $latitude:String!, $longitude:String!, $date:String!, $description: String!) {
-    createSong(title: $title, artist: $artist, latitude: $latitude, longitude: $longitude, date: $date, description: $description) {
+import NewSongMap from './AddSongMap'
+
+const FEED_QUERY = gql`
+{
+    songs{
         id
         title
         artist
@@ -15,21 +17,24 @@ const POST_MUTATION = gql`
         date
         description
         taggedBy{
-            id
-            username
-            email
+          username
+          id
         }
+      }
     }
-  }
 `
+
+
 export const CreateSong = props =>{
     const [title, setTitle] = React.useState('')
     const [artist, setArtist] = React.useState('')
-    const [latitude, setLatitude] = React.useState('')
-    const [longitude, setLongitude] = React.useState('')
+    // const [latitude, setLatitude] = React.useState('')
+    // const [longitude, setLongitude] = React.useState('')
     const [date, setDate] = React.useState('')
     const [description, setDescription] = React.useState('')
     
+    const [show, setShow] = React.useState(false);
+
 
     const [state, song] = useMutation(`
     mutation ($title: String!, $artist:String!, $latitude:String!, $longitude:String!, $date:String!, $description: String!) {
@@ -53,13 +58,37 @@ export const CreateSong = props =>{
 
     const onSubmit = (e) => {
         e.preventDefault()
-        song({ title, artist, latitude, longitude, date, description }).then((error)=>console.log(error));
+        const latitude = localStorage.getItem('latitude')
+        const longitude = localStorage.getItem('longitude')
+        const newSong = {title, artist, latitude, longitude, date, description}
+        song(newSong).then((error)=>console.log(error));
+        console.log(newSong);
+        setShow(true)
         e.target.reset()
+         
         
     }
 
+    
+    const [result] = useQuery({query:FEED_QUERY})
+    const {data, fetching, error}=result
+    
+    if (fetching) return <div>Fetching</div>
+    if (error) return <div>Error</div>
+
+    const songsToRender = data.songs
+
+
+
     return (
         <div>
+            {show ? 
+            <Alert variant="success" onClose={() => setShow(false)} dismissible>
+                <Alert.Heading>Submission Confirmed!</Alert.Heading>
+                <p>
+                Reload the page to see your new song added.
+                </p>
+            </Alert>: ''}
             <Form className="form-horizontal" onSubmit={onSubmit}>
                 <Form.Row className="justify-content-md-center">
                     <Col xs='auto'>
@@ -71,15 +100,15 @@ export const CreateSong = props =>{
                     <Col xs='auto'>
                         <Form.Control size='lg' type="text" onChange = {e=>setDate(e.target.value)} placeholder="Enter date here" />
                     </Col>
-                    <Col xs='auto'>
-                        <Form.Control size='lg' type="text" onChange = {e=>setLatitude(e.target.value)} placeholder="Enter latitude here" />
-                    </Col>
+                    {/* <Col xs='auto'>
+                        <Form.Control size='lg' plaintext readOnly defaultValue={localStorage.getItem('latitude')} />
+                    </Col> */}
                     
                 </Form.Row>
                 <Form.Row className="justify-content-md-center">
-                    <Col xs='auto'>
-                        <Form.Control size='lg' type="text" onChange = {e=>setLongitude(e.target.value)} placeholder="Enter longitude here" />
-                    </Col>
+                    {/* <Col xs='auto'>
+                        <Form.Control size='lg' plaintext readOnly defaultValue={localStorage.getItem('longitude')}/>
+                    </Col> */}
                     <Col xs='auto'>
                         <Form.Control size='lg' type="text" onChange = {e=>setDescription(e.target.value)} placeholder="Enter description here" />
                     </Col>
@@ -89,60 +118,9 @@ export const CreateSong = props =>{
                     </Col>
                 </Form.Row>
             </Form>
+            <NewSongMap songs={songsToRender}/>
         
-            {/* <div className = "flex flex-column mt3"> */}
-            {/* add two input fields for users to add descriptions and urls */}
-            {/* values are save in the React state and will be used to send in mutation */}
-            {/* <input
-                className="mb2"
-                value={title}
-                onChange={e => setTitle(e.target.value)}
-                type="text"
-                placeholder="The Title for the song"
-            />
-            <input
-                className="mb2"
-                value={artist}
-                onChange={e => setArtist(e.target.value)}
-                type="text"
-                placeholder="The Artist for the song"
-            />
-            <input
-                className="mb2"
-                value={latitude}
-                onChange={e => setLatitude(e.target.value)}
-                type="text"
-                placeholder="The Latitude for the song"
-            />
-            <input
-                className="mb2"
-                value={longitude}
-                onChange={e => setLongitude(e.target.value)}
-                type="text"
-                placeholder="The Longitude for the song"
-            />
-            <input
-                className="mb2"
-                value={date}
-                onChange={e => setDate(e.target.value)}
-                type="text"
-                placeholder="The Date for the song"
-            />
-            <input
-                className="mb2"
-                value={description}
-                onChange={e => setDescription(e.target.value)}
-                type="text"
-                placeholder="A description for the song"
-            />
             
-
-            </div>
-            <button
-              disabled={state.fetching}
-              onClick={this.onSubmit}>
-              Submit
-            </button> */}
         </div>
     )
 }
