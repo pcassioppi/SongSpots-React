@@ -1,7 +1,7 @@
 import React from 'react'
 import gql from 'graphql-tag';
 import { useMutation, useQuery } from 'urql';
-import {Card,Form, Button, Container, Alert, Col} from 'react-bootstrap';
+import {Card,Form, Button, Container, Alert, Col, Row} from 'react-bootstrap';
 
 
 import NewSongMap from './AddSongMap'
@@ -62,7 +62,7 @@ export const CreateSong = props =>{
         const longitude = localStorage.getItem('longitude')
         const newSong = {title, artist, latitude, longitude, date, description}
         song(newSong).then((error)=>console.log(error));
-        console.log(newSong);
+        
         setShow(true)
         e.target.reset()
          
@@ -82,45 +82,54 @@ export const CreateSong = props =>{
 
     return (
         <div>
-            
-            <Form className="form-horizontal" onSubmit={onSubmit}>
-                <Form.Row className="justify-content-md-center">
-                    <Col xs='auto'>
-                        <Form.Control size='lg' type="text" onChange = {e=>setTitle(e.target.value)} placeholder="Enter title here" />
-                    </Col>
-                    <Col xs='auto'>
-                        <Form.Control size='lg' type="text" onChange = {e=>setArtist(e.target.value)} placeholder="Enter artist here" />
-                    </Col>
-                    <Col xs='auto'>
-                        <Form.Control size='lg' type="text" onChange = {e=>setDate(e.target.value)} placeholder="Enter date here" />
-                    </Col>
-                    <Col xs='auto'>
-                        <Form.Control size='lg' placeholder={localStorage.getItem('latitude')} />
-                    </Col>
-                    
-                </Form.Row>
-                
-                <Form.Row className="justify-content-md-center">
-                    {/* <Col xs='auto'>
-                        <Form.Control size='lg' plaintext readOnly defaultValue={localStorage.getItem('longitude')}/>
-                    </Col> */}
-                    <Col xs='auto'>
-                        <Form.Control size='lg' type="text" onChange = {e=>setDescription(e.target.value)} placeholder="Enter description here" />
-                    </Col>
-                    <Col xs='auto'>
-                        <Button size='lg' variant="primary" type="submit" className='mb-4'>Enter</Button>
-
-                    </Col>
-                </Form.Row>
-            </Form>
             {show ? 
             <Alert variant="success" onClose={() => setShow(false)} dismissible>
                 <Alert.Heading>Submission Confirmed!</Alert.Heading>
                 <p>
                 Reload the page to see your new song added.
                 </p>
+                
             </Alert>: ''}
-            <NewSongMap songs={songsToRender}/>
+            <Row>
+                <Col>
+                    <Form className="form-horizontal" onSubmit={onSubmit}>
+                        <Form.Row className="justify-content-md-center">
+                            <Col xs='auto'>
+                                <Form.Control size='lg' type="text" onChange = {e=>setTitle(e.target.value)} placeholder="Enter title here" />
+                            </Col>
+                            <Col xs='auto'>
+                                <Form.Control size='lg' type="text" onChange = {e=>setArtist(e.target.value)} placeholder="Enter artist here" />
+                            </Col>
+                            <Col xs='auto'>
+                                <Form.Control size='lg' type="text" onChange = {e=>setDate(e.target.value)} placeholder="Enter date here" />
+                            </Col>
+                            
+                            
+                        </Form.Row>
+                        
+                        <Form.Row className="justify-content-md-center">
+                            
+                            <Col xs='auto'>
+                                <Form.Control size='lg' type="text" onChange = {e=>setDescription(e.target.value)} placeholder="Enter description here" />
+                            </Col>
+                            <Col xs='auto'>
+                                <Button size='lg' variant="primary" type="submit" className='mb-4'>Enter</Button>
+
+                            </Col>
+                        </Form.Row>
+                    </Form>
+                </Col>
+            {/* {show ? 
+            <Alert variant="success" onClose={() => setShow(false)} dismissible>
+                <Alert.Heading>Submission Confirmed!</Alert.Heading>
+                <p>
+                Reload the page to see your new song added.
+                </p>
+            </Alert>: ''} */}
+                <Col>
+                    <NewSongMap songs={songsToRender}/>
+                </Col>
+                </Row>
         
             
         </div>

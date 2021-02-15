@@ -11,25 +11,30 @@ const NewSongMap = ({songs}) => {
     }
 
     const mapStyles = {        
-      height: "90vh",
+      height: "100vh",
       width: "100%"};
-
+    
+    //centering map on continental us
     const defaultCenter = {
-        lat: 37, lng: -97.75
+        lat:41.88, lng: -87.62
     }
     
-    const [latitude, setLat] = React.useState('')
-    const [longitude, setLong] = React.useState('')
-   
+    const [latitude, setLat] = React.useState('41.88')
+    const [longitude, setLong] = React.useState('-87.62')
+    
+    
+
     return (
-       <LoadScript googleMapsApiKey=''>
+       <LoadScript googleMapsApiKey='AIzaSyDm54gm4NZ9mquneS-M6-uwYnpemx7mSwE'>
             <GoogleMap
             
             mapContainerStyle={mapStyles}
             zoom={5}
-            center={defaultCenter}
+            //centering map on continental us
+            center={{lat:parseFloat(latitude), lng:parseFloat(longitude)}}
+            clickableIcons = {false}
             onClick={(e)=>{
-                
+                // defaultCenter = {lat:e.latLng.lat(), lng:e.latLng.lng()}
                 setLat(e.latLng.lat())
                 setLong(e.latLng.lng())
                 localStorage.setItem('latitude', e.latLng.lat())
@@ -64,6 +69,7 @@ const NewSongMap = ({songs}) => {
                 {
                     <Marker
                     position={{ lat: parseFloat(latitude), lng: parseFloat(longitude) }}
+                    icon={{url: "http://maps.google.com/mapfiles/marker_green.png"}}
                     
                     />   
                 }

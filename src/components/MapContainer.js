@@ -8,7 +8,7 @@ const MapContainer = ({songs}) => {
 
     
    
-
+    
     const onSelect = item => {
        setSelected(item);
     }
@@ -16,24 +16,45 @@ const MapContainer = ({songs}) => {
     const mapStyles = {        
       height: "100vh",
       width: "100%"};
+    
+   
+    
+    const lats = []
+    songs.map(song =>{
+        if (song.latitude){
+            lats.push(parseFloat(song.latitude)) }
+        return lats
+    })
+    const midLat = (Math.max(...lats) + Math.min(...lats))/2
 
-    const defaultCenter = {
-      lat: 40.42, lng: -96.4
-    }
-
-
-
+    const longs = []
+    songs.map(song =>{
+        if (song.longitude){
+            longs.push(parseFloat(song.longitude)) }
+        return longs
+    })
+    
+    const midLong = (Math.max(...longs) + Math.min(...longs))/2
+    
+     //centering map on users data
+     const defaultCenter = {
+        lat: midLat, lng: midLong
+      }
+    
     
     return (
-       <LoadScript googleMapsApiKey=''>
+        
+       <LoadScript id="script-loader" googleMapsApiKey='AIzaSyDm54gm4NZ9mquneS-M6-uwYnpemx7mSwE'>
             <GoogleMap
             mapContainerStyle={mapStyles}
             zoom={4}
-            center={defaultCenter}>
+            center={defaultCenter}
+            clickableIcons = {false}
+            >
                 {
                 songs.map(item => {
                     return (
-                    <Marker key={item.id} position={{ lat: parseFloat(item.latitude), lng: parseFloat(item.longitude)}} onClick={() => onSelect(item)}/>
+                    <Marker key={item.id} position={{ lat: parseFloat(item.latitude), lng: parseFloat(item.longitude)}} onMouseOver={() => onSelect(item)}    />
                     )
                 })
                 }
@@ -42,8 +63,9 @@ const MapContainer = ({songs}) => {
                     (
                     <InfoWindow
                     position={{ lat: parseFloat(selected.latitude), lng: parseFloat(selected.longitude)}}
-                    clickable={true}
+                    // clickable={true}
                     onCloseClick={() => setSelected({})}
+                    
                     >
                     <span>
                         <div>{selected.title}</div>

@@ -6,6 +6,7 @@ import {Row, Col} from 'react-bootstrap'
 import Song from './Song'
 import MapContainer from './MapContainer'
 
+
 const FEED_QUERY = gql`
 {
     songs{
