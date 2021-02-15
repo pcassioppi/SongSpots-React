@@ -5,9 +5,6 @@ import { withRouter } from 'react-router'
 
 const MapContainer = ({songs}) => {
     const [ selected, setSelected ] = useState({});
-
-    
-   
     
     const onSelect = item => {
        setSelected(item);
@@ -16,8 +13,6 @@ const MapContainer = ({songs}) => {
     const mapStyles = {        
       height: "100vh",
       width: "100%"};
-    
-   
     
     const lats = []
     songs.map(song =>{
@@ -37,14 +32,14 @@ const MapContainer = ({songs}) => {
     const midLong = (Math.max(...longs) + Math.min(...longs))/2
     
      //centering map on users data
-     const defaultCenter = {
+     const [defaultCenter, setDefaultCenter] = useState({
         lat: midLat, lng: midLong
-      }
+      })
     
     
     return (
         
-       <LoadScript id="script-loader" googleMapsApiKey='AIzaSyDm54gm4NZ9mquneS-M6-uwYnpemx7mSwE'>
+       <LoadScript id="script-loader" googleMapsApiKey=''>
             <GoogleMap
             mapContainerStyle={mapStyles}
             zoom={4}

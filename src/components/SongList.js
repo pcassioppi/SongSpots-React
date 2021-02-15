@@ -5,7 +5,7 @@ import {Row, Col} from 'react-bootstrap'
 
 import Song from './Song'
 import MapContainer from './MapContainer'
-
+import '../App.css'
 
 const FEED_QUERY = gql`
 {
@@ -42,11 +42,12 @@ const SongList = () => {
     return(
         <div>
           <Row>
-            <Col>
+            <Col xs sm={3}>
             
             {/* {data.songs} */}
             {songsToRender.map((song, index) => (
              <Song key={song.id} song={song} index={index} />
+             
             ))}
             </Col>
 

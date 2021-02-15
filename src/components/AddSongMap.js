@@ -14,24 +14,41 @@ const NewSongMap = ({songs}) => {
       height: "100vh",
       width: "100%"};
     
+    
+    const lats = []
+    songs.map(song =>{
+        if (song.latitude){
+            lats.push(parseFloat(song.latitude)) }
+        return lats
+    })
+    const midLat = (Math.max(...lats) + Math.min(...lats))/2
+
+    const longs = []
+    songs.map(song =>{
+        if (song.longitude){
+            longs.push(parseFloat(song.longitude)) }
+        return longs
+    })
+    
+    const midLong = (Math.max(...longs) + Math.min(...longs))/2
+    
+    const [latitude, setLat] = React.useState(midLat)
+    const [longitude, setLong] = React.useState(midLong)
+    
     //centering map on continental us
-    const defaultCenter = {
-        lat:41.88, lng: -87.62
-    }
-    
-    const [latitude, setLat] = React.useState('41.88')
-    const [longitude, setLong] = React.useState('-87.62')
-    
-    
+    const [defaultCenter, setDefaultCenter] = useState({
+        lat: midLat, lng: midLong
+      })
 
     return (
-       <LoadScript googleMapsApiKey='AIzaSyDm54gm4NZ9mquneS-M6-uwYnpemx7mSwE'>
+       <LoadScript googleMapsApiKey=''>
             <GoogleMap
             
             mapContainerStyle={mapStyles}
             zoom={5}
             //centering map on continental us
-            center={{lat:parseFloat(latitude), lng:parseFloat(longitude)}}
+            // center={{lat:parseFloat(latitude), lng:parseFloat(longitude)}}
+            center={defaultCenter}
             clickableIcons = {false}
             onClick={(e)=>{
                 // defaultCenter = {lat:e.latLng.lat(), lng:e.latLng.lng()}
@@ -44,7 +61,7 @@ const NewSongMap = ({songs}) => {
                 {
                 songs.map(item => {
                     return (
-                    <Marker key={item.id} position={{ lat: parseFloat(item.latitude), lng: parseFloat(item.longitude)}} onClick={() => onSelect(item)}/>
+                    <Marker key={item.id} position={{ lat: parseFloat(item.latitude), lng: parseFloat(item.longitude)}} onMouseOver={() => onSelect(item)}/>
                     )
                 })
                 }
@@ -53,7 +70,7 @@ const NewSongMap = ({songs}) => {
                     (
                     <InfoWindow
                     position={{ lat: parseFloat(selected.latitude), lng: parseFloat(selected.longitude)}}
-                    clickable={true}
+                    // clickable={true}
                     onCloseClick={() => setSelected({})}
                     >
                     <span>
