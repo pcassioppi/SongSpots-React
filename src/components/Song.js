@@ -12,36 +12,25 @@ const Song = ({ index, song }) => {
 
     return (
       
-      <Card>
-      <div className="flex mt2 items-start">
+      <Card bg = {'info'} text = {'white'}>
+      {/* <div className="flex mt2 items-start"> */}
         <div className="flex items-center">
             {/* numbering on side */}
-            <span className="gray">{index + 1}.</span>
-            {/* if they are logged in display the upvote button */}
-            {/* maybe can use this to show if theyve seen the show */}
-            {/* {isLoggedIn && (
-                <button type="button" className="pointer button" onClick = {upvote} >
-                    {'upvote'}
-                </button> 
-                // <div className="ml1 gray f11" onClick={upvote}>
-                //     asdfasdfa
-            // </div>
-            )}*/}
+            {/* <span className="gray">{index + 1}.</span> */}
         </div>
         <div className="ml1">
-          <div>
+          <Card.Header>
             {song.artist}
-
-          </div>
-          <div>
+            <br />
             {song.title}
-          </div>
-          <div>
+            <br />
             {song.date}
-          </div>
-          <div>
-            {song.description}
-          </div>
+          </Card.Header>
+          <Card.Body>
+            <Card.Text>
+              {song.description}
+            </Card.Text>
+          </Card.Body>
           {/* <div className="f6 lh-copy gray">
             // if the song was posted by someone, display that person. 
             //otherwise display unknown
@@ -50,7 +39,7 @@ const Song = ({ index, song }) => {
               : 'Unknown'}{' '}
           </div> */}
         </div>
-      </div>
+      {/* </div> */}
       </Card>
     )
   }

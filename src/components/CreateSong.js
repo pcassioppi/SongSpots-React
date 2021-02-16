@@ -90,48 +90,61 @@ export const CreateSong = props =>{
                 </p>
                 
             </Alert>: ''}
+        {/* <Container> */}
             <Row>
                 <Col>
+                <Card bg='secondary'>
                     <Form className="form-horizontal" onSubmit={onSubmit}>
-                        <Form.Row className="justify-content-md-center">
-                            <Col xs='auto'>
+                        <Form.Group>
+                        <Row className="justify-content-md-center">
+                            <Col xs={8}>
                                 <Form.Control size='lg' type="text" onChange = {e=>setTitle(e.target.value)} placeholder="Enter title here" />
                             </Col>
-                            <Col xs='auto'>
+                        </Row>
+                        </Form.Group>
+                        <Form.Group>
+                        <Row className="justify-content-md-center">
+                            <Col xs={8}>
                                 <Form.Control size='lg' type="text" onChange = {e=>setArtist(e.target.value)} placeholder="Enter artist here" />
                             </Col>
-                            <Col xs='auto'>
+                        </Row>
+                        </Form.Group>
+                        <Form.Group>
+                        <Row className="justify-content-md-center">
+                            <Col xs={8}>
                                 <Form.Control size='lg' type="text" onChange = {e=>setDate(e.target.value)} placeholder="Enter date here" />
                             </Col>
                             
                             
-                        </Form.Row>
-                        
-                        <Form.Row className="justify-content-md-center">
+                        </Row>
+                        </Form.Group>
+                        <Form.Group>
+                        <Row className="justify-content-md-center">
                             
-                            <Col xs='auto'>
-                                <Form.Control size='lg' type="text" onChange = {e=>setDescription(e.target.value)} placeholder="Enter description here" />
+                            <Col xs={8}>
+                                <Form.Control size='lg' as='textarea' rows={5} type="text" onChange = {e=>setDescription(e.target.value)} placeholder="Enter description here" />
                             </Col>
+                        </Row>
+                        </Form.Group>
+                        <Form.Group>
+                        <Row className="justify-content-md-center">
                             <Col xs='auto'>
-                                <Button size='lg' variant="primary" type="submit" className='mb-4'>Enter</Button>
+                                <Button size='lg' variant="primary" type="submit" className='mb-4'>Submit Song</Button>
 
                             </Col>
-                        </Form.Row>
+                        </Row>
+                        </Form.Group>
+                        
                     </Form>
+                    </Card>
                 </Col>
-            {/* {show ? 
-            <Alert variant="success" onClose={() => setShow(false)} dismissible>
-                <Alert.Heading>Submission Confirmed!</Alert.Heading>
-                <p>
-                Reload the page to see your new song added.
-                </p>
-            </Alert>: ''} */}
-                <Col>
+            
+                <Col xs ={8}>
                     <NewSongMap songs={songsToRender}/>
                 </Col>
-                </Row>
+            </Row>
         
-            
+            {/* </Container> */}
         </div>
     )
 }

@@ -1,9 +1,10 @@
 import React from 'react'
 import gql from 'graphql-tag'
 import { useMutation } from 'urql'
+import {Card,Form, Button, Container, Alert, Col, Row} from 'react-bootstrap';
 
 import { setToken } from '../token'
-
+import '../App.css'
 
 export const Login = props => {
   const [username, setUsername] = React.useState("");
@@ -29,37 +30,51 @@ export const Login = props => {
 
 
     return (
-        
-        <form onSubmit={handleSubmit}>
-            <div className="flex flex-column">
-                
-                <input value={username}
-                    onChange = {e=>setUsername(e.target.value)}
-                    type="text"
-                    placeholder="Your username"/>
-                <input
-                    value={password}
-                    onChange={e => setPassword(e.target.value)}
-                    type="password"
-                    placeholder="Your password"/>
-            </div>
+        <Container>
+          <Card style={{ width: '40rem' }} bg='secondary'>
+            <Card.Body>
+          <Form onSubmit={handleSubmit}>
+              <Row className="text-center">
+                  <Col xs='auto'>
+                    <Form.Control value={username}
+                        onChange = {e=>setUsername(e.target.value)}
+                        type="text"
+                        placeholder="Your username"/>
+                  </Col>
+                  <Col xs='auto'>
+                    <Form.Control
+                        value={password}
+                        onChange={e => setPassword(e.target.value)}
+                        type="password"
+                        placeholder="Your password"/>
+                  </Col>
+                  
+                  <Col xs='auto'>
+                  <Button type="submit"
+                  disabled={data.fetching}
+                  // onClick={mutate}
+                  >
+                      {"Login"}
+                  </Button>
+                  </Col>
+                </Row>
 
-            <div className="flex mt3">
-                <button type="submit" className="pointer mr2 button"
-                disabled={data.fetching}
-                // onClick={mutate}
-                >
-                    {"login"}
-                </button>
-                <button
-                    type="button" className="pointer button" 
-                    disabled={data.fetching}
-                    onClick = {()=>props.history.push('/signup')}
-                    >
-                        {'need to create an account?'}
-                </button>
-            </div>
-        </form>
+              <Row>
+                
+                  <Col>
+                  <Button
+                      type="button"
+                      disabled={data.fetching}
+                      onClick = {()=>props.history.push('/signup')}
+                      >
+                          {'need to create an account?'}
+                  </Button>
+                  </Col>
+              </Row>
+          </Form>
+          </Card.Body>
+        </Card>
+        </Container>
   )
 }
 export default Login

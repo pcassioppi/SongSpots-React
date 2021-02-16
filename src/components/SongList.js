@@ -1,7 +1,7 @@
 import React from 'react'
 import { useQuery } from 'urql'
 import gql from 'graphql-tag'
-import {Row, Col} from 'react-bootstrap'
+import {Row, Col, Container, Card} from 'react-bootstrap'
 
 import Song from './Song'
 import MapContainer from './MapContainer'
@@ -40,21 +40,30 @@ const SongList = () => {
 
     
     return(
-        <div>
-          <Row>
-            <Col xs sm={3}>
-            
-            {/* {data.songs} */}
-            {songsToRender.map((song, index) => (
-             <Song key={song.id} song={song} index={index} />
-             
-            ))}
-            </Col>
-
-            <Col>
-              <MapContainer songs={songsToRender}/>
-            </Col>
-          </Row>
+      <div>
+        {/* <Container> */}
+          
+            <Container>
+              <Row>
+                <Col xs sm={3}>
+                
+                {/* {data.songs} */}
+                {songsToRender.map((song, index) => (
+                <Song key={song.id} song={song} index={index} />
+                
+                ))}
+                
+                </Col>
+                  
+                <Col xs={9}>
+                  <Card>
+                    <MapContainer songs={songsToRender}/>
+                  </Card>
+                </Col>
+              </Row>
+            </Container>
+          
+        {/* </Container> */}
         </div>
         )
     }
